@@ -17,6 +17,8 @@ submitButton.addEventListener("click", (e) => {
   const usename = personName.value;
   submitButton.setAttribute("disabled", true);
   submitButton.innerText = "Wait ....";
+  feedBackName.innerText="";
+  feedBackCountry.innerText="";
   const response = fetch(`https://api.nationalize.io/?name=${usename}`);
   response.then(function (res) {
     res.json().then(function (data) {
