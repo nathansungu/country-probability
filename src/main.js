@@ -12,20 +12,25 @@ function cleanData(country_id, probability) {
   const percentage = (probability * 100).toFixed(2);
   feedBackCountry.innerText += ` ${countryName}:  Certainity ${percentage}% \n`;
 }
+//function enable button
+function enableButtonFunction() {
+  submitButton.removeAttribute("disabled");
+  submitButton.innerText = "Search";
+}
 
 submitButton.addEventListener("click", (e) => {
   const usename = personName.value;
-  if (!usename){
-    feedBackCountry.innerText= "Provide a Name to proced"
-    return feedBackCountry
+  if (!usename) {
+    feedBackCountry.innerText = "Provide a name to proced";
+    return feedBackCountry;
   }
   submitButton.setAttribute("disabled", true);
   submitButton.innerText = "Wait ....";
-  feedBackName.innerText="";
-  feedBackCountry.innerText="";
+  feedBackName.innerText = "";
+  feedBackCountry.innerText = "";
   const response = fetch(`https://api.nationalize.io/?name=${usename}`);
   response.then(function (res) {
-    res.json().then(function (data) {
+    const fetchresults = res.json().then(function (data) {
       const { name, country } = data;
 
       for (let i = 0; i < country.length; i++) {
@@ -35,14 +40,16 @@ submitButton.addEventListener("click", (e) => {
       }
 
       feedBackName.innerText = `${name} is either from: `;
-      const enable_button = submitButton.removeAttribute("disabled");
+      submitButton.removeAttribute("disabled");
       submitButton.innerText = "Search";
-      
+    });
+    fetchresults.catch((e) => {
+      feedBackName.innerText = "Oops! Out of trials for the day";
+      enableButtonFunction();
     });
   });
   response.catch((e) => {
-    feedBackName.innerText = `Oops, error occoured, try again later.`;
-    submitButton.removeAttribute("disabled");
-    submitButton.innerText = "Search";
+    feedBackName.innerText = `Oops! Error occoured, try again later.`;
+    enableButtonFunction();
   });
 });
