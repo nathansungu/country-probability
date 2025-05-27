@@ -20,14 +20,15 @@ function enableButtonFunction() {
 
 submitButton.addEventListener("click", (e) => {
   const usename = personName.value;
-  if (!usename) {
-    feedBackCountry.innerText = "Provide a name to proced";
-    return feedBackCountry;
-  }
-  submitButton.setAttribute("disabled", true);
-  submitButton.innerText = "Wait ....";
   feedBackName.innerText = "";
   feedBackCountry.innerText = "";
+  submitButton.setAttribute("disabled", true);
+  if (!usename) {
+    feedBackCountry.innerText = "Provide a name to proced";
+    enableButtonFunction();
+    return feedBackCountry;
+  }
+  submitButton.innerText = "Wait ....";
   const response = fetch(`https://api.nationalize.io/?name=${usename}`);
   response.then(function (res) {
     const fetchresults = res.json().then(function (data) {
@@ -40,8 +41,7 @@ submitButton.addEventListener("click", (e) => {
       }
 
       feedBackName.innerText = `${name} is either from: `;
-      submitButton.removeAttribute("disabled");
-      submitButton.innerText = "Search";
+      enableButtonFunction();
     });
     fetchresults.catch((e) => {
       feedBackName.innerText = "Oops! Out of trials for the day";
