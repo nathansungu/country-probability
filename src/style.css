@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 :root{
   --header-background-color: gold;
@@ -39,6 +40,7 @@ body{
 }
 .form input{
   height: 30px;
+  padding: 10px;
 
 }
 .form button{
