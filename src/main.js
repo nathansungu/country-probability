@@ -15,6 +15,10 @@ function cleanData(country_id, probability) {
 
 submitButton.addEventListener("click", (e) => {
   const usename = personName.value;
+  if (!usename){
+    feedBackCountry.innerText= "Provide a Name to proced"
+    return feedBackCountry
+  }
   submitButton.setAttribute("disabled", true);
   submitButton.innerText = "Wait ....";
   feedBackName.innerText="";
